@@ -1,0 +1,28 @@
+# Version catalog is a central place for you to declare and version dependencies
+# https://docs.gradle.org/current/userguide/platforms.html#sub:version-catalog
+# https://docs.gradle.org/current/userguide/platforms.html#sub::toml-dependencies-format
+
+[versions]
+kotlin = "2.0.21"
+kotlinxDatetime = "0.6.1"
+kotlinxSerializationJSON = "1.7.2"
+kotlinxCoroutines = "1.8.1"
+slf4j = "2.0.16"
+lettuce = "6.5.0.RELEASE"
+
+[libraries]
+kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
+kotlinxDatetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
+kotlinxSerialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJSON" }
+kotlinxCoroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
+slf4jApi = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
+lettuceCore = { module = "io.lettuce:lettuce-core", version.ref = "lettuce" }
+
+
+[bundles]
+kotlinxEcosystem = ["kotlinxDatetime", "kotlinxSerialization", "kotlinxCoroutines"]
+slf4j = ["slf4jApi"]
+lettuce = ["lettuceCore"]
+
+[plugins]
+kotlinPluginSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
