@@ -9,6 +9,7 @@ kotlinxSerializationJSON = "1.7.2"
 kotlinxCoroutines = "1.8.1"
 slf4j = "2.0.16"
 lettuce = "6.5.0.RELEASE"
+ktor = "3.0.1"
 
 [libraries]
 kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
@@ -26,3 +27,4 @@ lettuce = ["lettuceCore"]
 
 [plugins]
 kotlinPluginSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+ktor = { id = "io.ktor.plugin", version.ref="ktor" }
