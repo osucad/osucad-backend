@@ -22,15 +22,15 @@ lettuceCore = { module = "io.lettuce:lettuce-core", version.ref = "lettuce" }
 
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 
-ktor-server-core = { module = "io.ktor:ktor-server-core-jvm" }
-ktor-server-auth = { module = "io.ktor:ktor-server-auth-jvm" }
-ktor-server-cors = { module = "io.ktor:ktor-server-cors-jvm" }
-ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation-jvm" }
-ktor-server-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json-jvm" }
-ktor-server-websockets = { module = "io.ktor:ktor-server-websockets-jvm" }
-ktor-server-auto-head-response = { module = "io.ktor:ktor-server-auto-head-response-jvm" }
-ktor-server-netty = { module = "io.ktor:ktor-server-netty-jvm" }
-ktor-server-config-yaml = { module = "io.ktor:ktor-server-config-yaml" }
+ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref="ktor" }
+ktor-server-auth = { module = "io.ktor:ktor-server-auth-jvm", version.ref="ktor" }
+ktor-server-cors = { module = "io.ktor:ktor-server-cors-jvm", version.ref="ktor" }
+ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation-jvm", version.ref="ktor" }
+ktor-server-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json-jvm", version.ref="ktor" }
+ktor-server-websockets = { module = "io.ktor:ktor-server-websockets-jvm", version.ref="ktor" }
+ktor-server-auto-head-response = { module = "io.ktor:ktor-server-auto-head-response-jvm", version.ref="ktor" }
+ktor-server-netty = { module = "io.ktor:ktor-server-netty-jvm", version.ref="ktor" }
+ktor-server-config-yaml = { module = "io.ktor:ktor-server-config-yaml", version.ref="ktor" }
 
 khealth = { module = "dev.hayden:khealth", version.ref = "khealth" }
 
