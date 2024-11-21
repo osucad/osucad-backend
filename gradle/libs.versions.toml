@@ -6,7 +6,7 @@
 kotlin = "2.0.21"
 kotlinxDatetime = "0.6.1"
 kotlinxSerializationJSON = "1.7.2"
-kotlinxCoroutines = "1.8.1"
+kotlinxCoroutines = "1.9.0"
 lettuce = "6.5.0.RELEASE"
 ktor = "3.0.1"
 logback = "1.4.14"
@@ -17,6 +17,7 @@ kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", ver
 kotlinxDatetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlinxSerialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJSON" }
 kotlinxCoroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
+kotlinxCoroutinesReactive = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-reactive", version.ref = "kotlinxCoroutines" }
 lettuceCore = { module = "io.lettuce:lettuce-core", version.ref = "lettuce" }
 
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
@@ -35,7 +36,7 @@ khealth = { module = "dev.hayden:khealth", version.ref = "khealth" }
 
 [bundles]
 kotlinxEcosystem = ["kotlinxDatetime", "kotlinxSerialization", "kotlinxCoroutines"]
-lettuce = ["lettuceCore"]
+lettuce = ["lettuceCore", "kotlinxCoroutinesReactive"]
 ktor = [
     "ktor-server-core",
     "ktor-server-auth",
