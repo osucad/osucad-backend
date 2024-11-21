@@ -7,24 +7,48 @@ kotlin = "2.0.21"
 kotlinxDatetime = "0.6.1"
 kotlinxSerializationJSON = "1.7.2"
 kotlinxCoroutines = "1.8.1"
-slf4j = "2.0.16"
 lettuce = "6.5.0.RELEASE"
 ktor = "3.0.1"
+logback = "1.4.14"
+khealth = "3.0.0"
 
 [libraries]
 kotlinGradlePlugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 kotlinxDatetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinxDatetime" }
 kotlinxSerialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerializationJSON" }
 kotlinxCoroutines = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
-slf4jApi = { module = "org.slf4j:slf4j-api", version.ref = "slf4j" }
 lettuceCore = { module = "io.lettuce:lettuce-core", version.ref = "lettuce" }
 
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+
+ktor-server-core = { module = "io.ktor:ktor-server-core-jvm" }
+ktor-server-auth = { module = "io.ktor:ktor-server-auth-jvm" }
+ktor-server-cors = { module = "io.ktor:ktor-server-cors-jvm" }
+ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation-jvm" }
+ktor-server-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json-jvm" }
+ktor-server-websockets = { module = "io.ktor:ktor-server-websockets-jvm" }
+ktor-server-auto-head-response = { module = "io.ktor:ktor-server-auto-head-response-jvm" }
+ktor-server-netty = { module = "io.ktor:ktor-server-netty-jvm" }
+ktor-server-config-yaml = { module = "io.ktor:ktor-server-config-yaml" }
+
+khealth = { module = "dev.hayden:khealth", version.ref = "khealth" }
 
 [bundles]
 kotlinxEcosystem = ["kotlinxDatetime", "kotlinxSerialization", "kotlinxCoroutines"]
-slf4j = ["slf4jApi"]
 lettuce = ["lettuceCore"]
+ktor = [
+    "ktor-server-core",
+    "ktor-server-auth",
+    "ktor-server-cors",
+    "ktor-server-content-negotiation",
+    "ktor-server-kotlinx-json",
+    "ktor-server-websockets",
+    "ktor-server-auto-head-response",
+    "ktor-server-netty",
+    "ktor-server-config-yaml",
+    "logback"
+]
 
 [plugins]
 kotlinPluginSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-ktor = { id = "io.ktor.plugin", version.ref="ktor" }
+ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
