@@ -1,6 +1,5 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="Websocket Gateway" type="KtorApplicationConfigurationType" factoryName="Ktor">
-    <option name="MAIN_CLASS_NAME" value="io.ktor.server.netty.EngineMain" />
     <module name="osucad.app.websocket-gateway.main" />
     <option name="alternativeJrePath" />
     <option name="alternativeJrePathEnabled" value="false" />
@@ -8,8 +7,8 @@
     <option name="mainClass" value="io.ktor.server.netty.EngineMain" />
     <option name="passParentEnvs" value="true" />
     <option name="programParameters" value="" />
-    <option name="shortenCommandLine" />
-    <option name="vmParameters" />
+    <option name="shortenCommandLine" value="NONE" />
+    <option name="vmParameters" value="" />
     <option name="workingDirectory" value="$PROJECT_DIR$" />
     <method v="2">
       <option name="Make" enabled="true" />
