@@ -20,4 +20,5 @@ dependencies {
     implementation(libs.bundles.ktor)
 
     testImplementation(kotlin("test"))
+    testImplementation(libs.ktor.server.testHost)
 }
