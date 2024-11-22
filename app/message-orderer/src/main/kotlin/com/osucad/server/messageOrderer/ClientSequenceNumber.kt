@@ -4,7 +4,7 @@ import com.osucad.server.multiplayer.SequenceNumber
 import kotlinx.datetime.Instant
 
 data class ClientSequenceNumber(
-    var clientId: String,
+    val clientId: String,
     /**
      * The local sequence number of the client
      */
