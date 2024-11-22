@@ -21,6 +21,7 @@ class ApplicationTest : FunSpec({
         startupAttempts = 1
         withExposedPorts(6379)
     }
+    redis.start()
 
     test("Application becomes ready on startup") {
         testApplication {
