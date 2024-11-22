@@ -1,5 +1,6 @@
 package com.osucad.server.messageOrderer
 
+import com.osucad.server.multiplayer.SequenceNumber
 import kotlinx.datetime.Instant
 
 class ClientSequenceNumberManager {
@@ -7,8 +8,8 @@ class ClientSequenceNumberManager {
 
     fun upsertClient(
         clientId: String,
-        clientSequenceNumber: Long,
-        referenceSequenceNumber: Long,
+        clientSequenceNumber: SequenceNumber,
+        referenceSequenceNumber: SequenceNumber,
         timestamp: Instant,
     ): Boolean {
         val client = clientNodeMap[clientId]
@@ -37,8 +38,8 @@ class ClientSequenceNumberManager {
         return clientNodeMap.remove(clientId) != null
     }
 
-    fun minimumSequenceNumber(): Long? {
-        if (clientNodeMap.isEmpty()) return null
+    fun minimumSequenceNumber(): SequenceNumber {
+        if (clientNodeMap.isEmpty()) return SequenceNumber.None
 
         return clientNodeMap.values.minOf { it.referenceSequenceNumber }
     }
