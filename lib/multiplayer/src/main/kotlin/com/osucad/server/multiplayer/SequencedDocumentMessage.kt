@@ -4,7 +4,7 @@ import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
 
 @Serializable
-class SequencedDocumentMessage(
+data class SequencedDocumentMessage(
     val clientId: String? = null,
     val sequenceNumber: SequenceNumber,
     val clientSequenceNumber: SequenceNumber,

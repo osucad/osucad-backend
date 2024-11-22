@@ -8,14 +8,14 @@ sealed interface DocumentMessage {
     val referenceSequenceNumber: SequenceNumber
 
     @Serializable
-    class ClientJoin(
+    data class ClientJoin(
         override val clientSequenceNumber: SequenceNumber,
         override val referenceSequenceNumber: SequenceNumber,
         val clientId: String,
     ) : DocumentMessage
 
     @Serializable
-    class ClientLeave(
+    data class ClientLeave(
         override val clientSequenceNumber: SequenceNumber,
         override val referenceSequenceNumber: SequenceNumber,
         val clientId: String,
