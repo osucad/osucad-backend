@@ -26,4 +26,8 @@ tasks.withType<Test>().configureEach {
             TestLogEvent.SKIPPED
         )
     }
+
+    reports {
+        junitXml.required = true
+    }
 }
