@@ -22,6 +22,7 @@ dependencies {
     testImplementation("io.kotest:kotest-property:$kotestVersion")
     testImplementation("io.kotest.extensions:kotest-assertions-ktor:2.0.0")
     testImplementation("io.kotest.extensions:kotest-extensions-testcontainers:2.0.2")
+    testImplementation("com.redis:testcontainers-redis:2.2.2")
 }
 
 tasks.withType<Test>().configureEach {
