@@ -14,6 +14,9 @@ class MessageOrderer(
 ) {
     private var sequenceNumber = 0L
 
+    suspend fun handle(message: RawOperationMessage) =
+        handle(QueuedMessage(listOf(message)))
+
     suspend fun handle(rawMessages: QueuedMessage) {
         for (message in rawMessages.messages) {
             val ticketedMessage = ticket(message) ?: continue
@@ -48,7 +51,7 @@ class MessageOrderer(
                     referenceSequenceNumber = operation.referenceSequenceNumber,
                     timestamp = message.timestamp,
                 )
-                
+
                 if (!isNewClient)
                     return null
             }
@@ -56,7 +59,7 @@ class MessageOrderer(
 
         val sequenceNumber = revSequenceNumber()
 
-        if (clientId != null) {
+        if (clientId != null && operation !is DocumentMessage.ClientLeave) {
             clientSeqManager.upsertClient(
                 clientId = clientId,
                 clientSequenceNumber = message.operation.clientSequenceNumber,

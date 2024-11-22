@@ -13,4 +13,6 @@ dependencies {
 
     implementation(libs.bundles.kotlinxEcosystem)
     implementation(libs.bundles.lettuce)
+
+    testImplementation(kotlin("test"))
 }
