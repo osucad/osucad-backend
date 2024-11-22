@@ -38,12 +38,6 @@ class ClientSequenceNumberManager {
         return clientNodeMap.remove(clientId) != null
     }
 
-    fun minimumSequenceNumber(): SequenceNumber {
-        if (clientNodeMap.isEmpty()) return SequenceNumber.None
-
-        return clientNodeMap.values.minOf { it.referenceSequenceNumber }
-    }
-
     fun get(clientId: String) = clientNodeMap[clientId]
 
 
