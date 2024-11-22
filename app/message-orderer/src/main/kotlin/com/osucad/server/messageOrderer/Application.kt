@@ -1,6 +1,7 @@
 package com.osucad.server.messageOrderer
 
 import com.osucad.ktor.redis.Redis
+import com.osucad.server.messageOrderer.plugins.configureHealthChecks
 import io.ktor.server.application.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -9,6 +10,7 @@ import io.lettuce.core.RedisURI
 
 fun Application.module() {
     install(Redis)
+    configureHealthChecks()
 
     routing {
         get {

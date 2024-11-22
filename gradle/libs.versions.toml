@@ -32,6 +32,8 @@ ktor-server-auto-head-response = { module = "io.ktor:ktor-server-auto-head-respo
 ktor-server-netty = { module = "io.ktor:ktor-server-netty-jvm", version.ref="ktor" }
 ktor-server-config-yaml = { module = "io.ktor:ktor-server-config-yaml", version.ref="ktor" }
 
+ktor-server-testHost = { module = "io.ktor:ktor-server-test-host-jvm", version.ref="ktor" }
+
 khealth = { module = "dev.hayden:khealth", version.ref = "khealth" }
 
 [bundles]
@@ -47,7 +49,8 @@ ktor = [
     "ktor-server-auto-head-response",
     "ktor-server-netty",
     "ktor-server-config-yaml",
-    "logback"
+    "logback",
+    "khealth",
 ]
 
 [plugins]
