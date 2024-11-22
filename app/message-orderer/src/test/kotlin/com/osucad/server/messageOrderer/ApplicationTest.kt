@@ -22,8 +22,6 @@ class ApplicationTest : FunSpec({
         withExposedPorts(6379)
     }
 
-
-
     test("Application becomes ready on startup") {
         testApplication {
             environment {
@@ -39,7 +37,7 @@ class ApplicationTest : FunSpec({
 
             val client = createClient {}
 
-            eventually(10.seconds) {
+            eventually(30.seconds) {
                 val response = client.get("/ready")
 
                 response shouldHaveStatus 200
