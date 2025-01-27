@@ -10,14 +10,12 @@ import io.ktor.server.routing.*
 
 fun Route.userRoutes() {
     authenticate {
-        route("/me") { me() }
+        route("/me", Route::ownUserRoute)
     }
 }
 
-private fun Route.me() {
-
-
-    get("/") {
+private fun Route.ownUserRoute() {
+    get {
         val user = call.getUser() ?: throw InternalServerErrorException("User not found")
 
         call.respond(UserDto.map(user))
