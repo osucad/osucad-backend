@@ -22,6 +22,7 @@ plugins {
 // Learn more about structuring projects with Gradle - https://docs.gradle.org/8.7/userguide/multi_project_builds.html
 include(":app:websocket-gateway")
 include(":app:message-orderer")
+include(":app:api")
 include(":lib:multiplayer")
 include(":lib:ktor-redis")
 

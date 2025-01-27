@@ -17,7 +17,7 @@ dependencies {
 
     implementation(libs.bundles.kotlinxEcosystem)
     implementation(libs.bundles.lettuce)
-    implementation(libs.bundles.ktor)
+    implementation(libs.bundles.ktor.server)
 
     testImplementation(kotlin("test"))
     testImplementation(libs.ktor.server.testHost)

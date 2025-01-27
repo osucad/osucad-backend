@@ -4,5 +4,5 @@ plugins {
 
 dependencies {
     implementation(libs.bundles.lettuce)
-    implementation(libs.bundles.ktor)
+    implementation(libs.bundles.ktor.server)
 }
