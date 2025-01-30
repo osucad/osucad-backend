@@ -44,7 +44,7 @@ fun Application.configureSecurity() {
 
     val userService = get<IUserService>()
 
-    val sessionDuration = 7.days
+    val sessionDuration = 30.days
 
     install(Sessions) {
         cookie<UserSession>("user_session", directorySessionStorage(sessionConfig.storageDirectory)) {
