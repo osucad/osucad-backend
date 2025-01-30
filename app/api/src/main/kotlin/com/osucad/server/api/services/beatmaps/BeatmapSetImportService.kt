@@ -40,16 +40,26 @@ class BeatmapSetImportService(
         }
     }
 
+    class OSZImportException(message: String? = null) : Exception(message)
+
+
     @OptIn(ExperimentalPathApi::class)
     suspend fun import(path: Path): UUID = withContext(Dispatchers.IO) {
-        logger.info("Attempting to import beatmapset from .osz file {}", path.absolutePathString()  )
+        logger.info("Attempting to import beatmapset from .osz file {}", path.absolutePathString())
 
         toZipFile(path).use { zipFile ->
             val allPaths = zipFile.entries().toList()
 
-            val (beatmapPaths, assetEntries) = allPaths.partition { isBeatmap(it.name) }
+            val (beatmapEntries, assetEntries) = allPaths.partition { isBeatmap(it.name) }
 
-            val beatmaps = beatmapPaths.map {
+            if (beatmapEntries.isEmpty())
+                throw OSZImportException("No beatmaps present in archive")
+            
+            if (assetEntries.isEmpty())
+                throw OSZImportException("No assets present in archive")
+
+
+            val beatmaps = beatmapEntries.map {
                 val text = zipFile.getInputStream(it).use { inputStream -> String(inputStream.readBytes()) }
                 parser.parse(text)
             }
