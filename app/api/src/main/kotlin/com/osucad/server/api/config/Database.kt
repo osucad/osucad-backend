@@ -1,5 +1,10 @@
 package com.osucad.server.api.config
 
+import com.osucad.server.api.database.BeatmapSetAssets
+import com.osucad.server.api.database.BeatmapSetSnapshots
+import com.osucad.server.api.database.BeatmapSets
+import com.osucad.server.api.database.BeatmapSnapshots
+import com.osucad.server.api.database.Beatmaps
 import com.osucad.server.api.database.Users
 import io.ktor.server.application.*
 import org.jetbrains.exposed.sql.Database
@@ -21,7 +26,14 @@ fun Application.configureDatabase() {
         )
 
         transaction(db) {
-            SchemaUtils.create(Users)
+            SchemaUtils.create(
+                Users,
+                BeatmapSets,
+                Beatmaps,
+                BeatmapSnapshots,
+                BeatmapSetSnapshots,
+                BeatmapSetAssets,
+            )
         }
     }
 }

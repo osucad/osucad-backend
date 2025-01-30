@@ -9,7 +9,7 @@ enum class UserRole {
     Admin
 }
 
-object Users : IdTable<Int>() {
+object Users : IdTable<Int>("osucad_user") {
     override val id = integer("id").entityId()
 
     override val primaryKey = PrimaryKey(id)

@@ -41,7 +41,7 @@ fun Application.configureSecurity() {
 
     val sessionConfig = get<SessionConfig>()
     val osuOAuthConfig = get<OsuOAuthConfig>()
-    val serverConfig = get<ApiServerConfig>()
+    val serverConfig = get<OsucadEndpointConfig>()
 
     val userService = get<IUserService>()
 
@@ -133,7 +133,7 @@ fun Application.configureSecurity() {
                         }
                     }
 
-                    call.respondRedirect(serverConfig.clientUrl.trimTrailingSlash() + "/")
+                    call.respondRedirect(serverConfig.client.trimTrailingSlash() + "/")
                 }
             }
         }

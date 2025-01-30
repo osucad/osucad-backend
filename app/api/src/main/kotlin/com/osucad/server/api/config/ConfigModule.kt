@@ -7,7 +7,7 @@ import org.koin.core.annotation.Single
 @Module
 class ConfigModule {
     @Single
-    fun apiServerConfig(config: ApplicationConfig) = ApiServerConfig(config.config("osucad"))
+    fun apiServerConfig(config: ApplicationConfig) = OsucadEndpointConfig(config.config("osucad.endpoints"))
 
     @Single
     fun sessionConfig(config: ApplicationConfig) = SessionConfig(config.config("session"))
