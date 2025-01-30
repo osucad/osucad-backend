@@ -3,6 +3,7 @@ package com.osucad.server.api.config
 import com.osucad.server.api.exceptions.UnauthorizedException
 import com.osucad.server.api.services.user.IUserService
 import com.osucad.server.api.utils.UserAttributeKey
+import com.osucad.server.api.utils.getUser
 import com.osucad.server.api.utils.getValue
 import com.osucad.server.api.utils.trimTrailingSlash
 import io.ktor.client.call.*
@@ -135,6 +136,16 @@ fun Application.configureSecurity() {
                     call.respondRedirect(serverConfig.clientUrl.trimTrailingSlash() + "/")
                 }
             }
+        }
+
+        get("/api/v1/auth/logout") {
+            val user = call.getUser()
+            if (user != null) {
+                log.info("User ${user.username} (${user.id}) logged out")
+            }
+
+            call.sessions.clear<UserSession>()
+            call.respond(status = HttpStatusCode.OK, Unit)
         }
     }
 }
