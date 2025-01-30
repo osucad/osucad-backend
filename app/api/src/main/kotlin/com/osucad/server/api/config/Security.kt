@@ -126,7 +126,7 @@ fun Application.configureSecurity() {
                     call.sessions.set(UserSession(user.id))
 
                     currentPrincipal.state?.let { state ->
-                        redirects[state]?.let { redirectUrl ->
+                        redirects.remove(state)?.let { redirectUrl ->
                             call.respondRedirect(redirectUrl)
                             return@get
                         }
