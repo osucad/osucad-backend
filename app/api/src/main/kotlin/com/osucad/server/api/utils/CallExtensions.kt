@@ -10,7 +10,7 @@ fun ApplicationCall.getUserId(): Int? = sessions.get<UserSession>()?.userId
 
 val UserAttributeKey = AttributeKey<User>("osucad:user")
 
-fun ApplicationCall.getUser(): User? = attributes[UserAttributeKey]
+fun ApplicationCall.getUser(): User? = attributes.getOrNull(UserAttributeKey)
 
 fun ApplicationCall.setUser(user: User) {
     attributes.put(UserAttributeKey, user)
