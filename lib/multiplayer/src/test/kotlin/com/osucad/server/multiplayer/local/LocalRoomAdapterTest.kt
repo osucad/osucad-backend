@@ -30,7 +30,7 @@ class LocalRoomAdapterTest : AnnotationSpec() {
         val clientManager = LocalClientManager()
         val meterRegistry = SimpleMeterRegistry()
 
-        opsManager.appendSummary(0, SequenceNumber(0), "")
+        opsManager.appendSummary(0, SequenceNumber(0), "", emptyList())
 
         val adapter = LocalRoomAdapter(roomId, broadcaster, meterRegistry, clientManager, opsManager)
 
@@ -70,7 +70,7 @@ class LocalRoomAdapterTest : AnnotationSpec() {
         val meterRegistry = SimpleMeterRegistry()
         val adapter = LocalRoomAdapter(roomId, broadcaster, meterRegistry, clientManager, opsManager)
 
-        opsManager.appendSummary(0, SequenceNumber(0), "")
+        opsManager.appendSummary(0, SequenceNumber(0), "", emptyList())
 
         val socket1 = TestWebSocket()
         val socket2 = TestWebSocket()
