@@ -5,5 +5,6 @@ plugins {
 
 dependencies {
     implementation(libs.bundles.kotlinxEcosystem)
-    implementation(libs.bundles.lettuce)
+    implementation(libs.redisson)
+    implementation(libs.micrometer.registry.prometheus)
 }

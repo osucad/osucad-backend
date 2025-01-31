@@ -7,14 +7,15 @@ plugins {
 application {
     mainClass.set("io.ktor.server.netty.EngineMain")
 
-    val isDevelopment: Boolean = project.ext.has("development")
-    applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
+    applicationDefaultJvmArgs = listOf("-Dio.ktor.development=false")
 }
 
 dependencies {
-    implementation(project(":lib:ktor-redis"))
+    api(project(":lib:multiplayer"))
 
     implementation(libs.bundles.kotlinxEcosystem)
-    implementation(libs.bundles.lettuce)
     implementation(libs.bundles.ktor.server)
+    implementation(libs.redisson)
+
+    implementation(libs.micrometer.registry.prometheus)
 }
