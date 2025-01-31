@@ -19,7 +19,7 @@ class LocalRoomAdapter(
     }
 
     override suspend fun acquireLock(): ILock {
-        val owner = this
+        val owner = object : Any() {}
 
         mutex.lock(owner)
 
