@@ -25,7 +25,13 @@ class RedisGateway(
     ) {
         ensureInitialized()
 
-        val room = RedisRoomAdapter(roomId, redis, broadcaster, meterRegistry)
+
+        val room = RedisRoomAdapter(
+            roomId = roomId,
+            redis = RedisRoomResources(redis, roomId),
+            broadcaster = broadcaster,
+            meterRegistry = meterRegistry,
+        )
 
         room.handle(socket, user)
     }

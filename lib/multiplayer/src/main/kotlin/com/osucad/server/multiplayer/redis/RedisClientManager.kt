@@ -9,13 +9,12 @@ import kotlinx.coroutines.future.await
 import org.redisson.api.RedissonClient
 import java.util.UUID
 
-class ClientManager(
-    redis: RedissonClient,
-    prefix: String,
+class RedisClientManager(
+    redis: RedisRoomResources,
 ) : IClientManager {
-    private val clients = redis.getMap<Long, ClientInfo>("$prefix:clients")
+    private val clients = redis.getClients()
 
-    private val idGenerator = redis.getIdGenerator("$prefix:clientIds")
+    private val idGenerator = redis.getClientIdGenerator()
 
     private fun nextColor(): String {
         return "#ff0000"

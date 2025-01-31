@@ -4,23 +4,20 @@ import com.osucad.server.multiplayer.BaseRoomAdapter
 import com.osucad.server.multiplayer.ILock
 import io.micrometer.core.instrument.MeterRegistry
 import kotlinx.coroutines.future.await
-import org.redisson.api.RedissonClient
 import java.util.*
 import java.util.concurrent.TimeUnit
 
 class RedisRoomAdapter(
     roomId: UUID,
-    redis: RedissonClient,
+    redis: RedisRoomResources,
     broadcaster: IMessageBroadcaster,
     meterRegistry: MeterRegistry
 ) : BaseRoomAdapter(roomId, broadcaster, meterRegistry) {
-    private val prefix = "osucad:edit:$roomId"
+    override val clients = RedisClientManager(redis)
 
-    override val clients = ClientManager(redis, prefix)
+    override val opsManager = RedisOpsManager(redis)
 
-    override val opsManager = RedisOpsManager(redis, prefix)
-
-    private val lock = redis.getLock("$prefix:lock")
+    private val lock = redis.getLock()
 
     override suspend fun acquireLock(): ILock {
         val threadId = Thread.currentThread().threadId()

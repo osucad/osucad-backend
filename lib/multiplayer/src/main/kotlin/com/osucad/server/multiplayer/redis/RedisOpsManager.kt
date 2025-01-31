@@ -5,11 +5,8 @@ import com.osucad.server.multiplayer.types.OpsMessage
 import com.osucad.server.multiplayer.types.SequenceNumber
 import com.osucad.server.multiplayer.types.SequencedOpsMessage
 import com.osucad.server.multiplayer.types.SummaryMessage
-import kotlinx.coroutines.flow.asFlow
-import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.future.await
-import org.redisson.api.RedissonClient
 import org.redisson.api.StreamMessageId
 import org.redisson.api.stream.StreamAddArgs
 import org.redisson.api.stream.StreamReadArgs
@@ -19,12 +16,11 @@ import kotlin.time.Duration.Companion.seconds
 import kotlin.time.toJavaDuration
 
 class RedisOpsManager(
-    redis: RedissonClient,
-    prefix: String,
+    redis: RedisRoomResources,
 ) : IOpsManager {
-    private val opsStream = redis.getStream<String, OpsMessage>("$prefix:ops")
+    private val opsStream = redis.getOpsStream()
 
-    private val summaryBucket = redis.getBucket<SummaryMessage>("$prefix:summary")
+    private val summaryBucket = redis.getSummaryBucket()
 
     companion object {
         private const val MESSAGE_KEY = "message"
