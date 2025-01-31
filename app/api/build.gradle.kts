@@ -14,7 +14,7 @@ application {
 }
 
 dependencies {
-    implementation(project(":lib:ktor-redis"))
+    implementation(project(":lib:multiplayer"))
 
     implementation(libs.bundles.kotlinxEcosystem)
     implementation(libs.bundles.lettuce)
@@ -29,4 +29,5 @@ dependencies {
     ksp(libs.koin.kspCompiler)
 
     implementation(libs.mappie.api)
+    implementation(libs.redisson)
 }

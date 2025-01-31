@@ -32,6 +32,7 @@ logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 
 ktor-server-core = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor" }
 ktor-server-auth = { module = "io.ktor:ktor-server-auth-jvm", version.ref = "ktor" }
+ktor-server-auth-jwt = { module = "io.ktor:ktor-server-auth-jwt-jvm", version.ref = "ktor" }
 ktor-server-cors = { module = "io.ktor:ktor-server-cors-jvm", version.ref = "ktor" }
 ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation-jvm", version.ref = "ktor" }
 ktor-server-kotlinx-json = { module = "io.ktor:ktor-serialization-kotlinx-json-jvm", version.ref = "ktor" }
@@ -75,6 +76,7 @@ lettuce = ["lettuceCore", "kotlinxCoroutinesReactive"]
 ktor-server = [
     "ktor-server-core",
     "ktor-server-auth",
+    "ktor-server-auth-jwt",
     "ktor-server-cors",
     "ktor-server-content-negotiation",
     "ktor-server-kotlinx-json",

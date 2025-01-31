@@ -6,5 +6,6 @@ import kotlinx.serialization.Serializable
 data class SequencedOpsMessage(
     val clientId: Long,
     val sequenceNumber: SequenceNumber,
+    val version: Long,
     val ops: List<String>,
 )

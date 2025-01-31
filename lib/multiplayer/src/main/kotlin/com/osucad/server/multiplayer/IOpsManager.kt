@@ -1,5 +1,6 @@
 package com.osucad.server.multiplayer
 
+import com.osucad.server.multiplayer.types.AssetInfo
 import com.osucad.server.multiplayer.types.SequenceNumber
 import com.osucad.server.multiplayer.types.SequencedOpsMessage
 import com.osucad.server.multiplayer.types.SummaryMessage
@@ -12,7 +13,7 @@ interface IOpsManager {
 
     suspend fun getOpsSince(sequenceNumber: SequenceNumber): List<SequencedOpsMessage>
 
-    suspend fun appendSummary(clientId: Int, sequenceNumber: SequenceNumber, summary: String)
+    suspend fun appendSummary(clientId: Int, sequenceNumber: SequenceNumber, summary: String, assets: List<AssetInfo>,)
 
     suspend fun getSummary(): SummaryMessage
 

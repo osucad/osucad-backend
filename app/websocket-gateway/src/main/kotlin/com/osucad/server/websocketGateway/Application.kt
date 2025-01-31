@@ -1,6 +1,5 @@
 package com.osucad.server.websocketGateway
 
-import com.osucad.server.multiplayer.local.LocalGateway
 import com.osucad.server.multiplayer.redis.RedisGateway
 import com.osucad.server.multiplayer.types.SequenceNumber
 import com.osucad.server.multiplayer.types.SummaryMessage
@@ -9,9 +8,12 @@ import com.osucad.server.multiplayer.redis.RedisMessageBroadcaster
 import com.osucad.server.websocketGateway.plugins.configureMetrics
 import com.osucad.server.websocketGateway.plugins.configureWebSockets
 import io.ktor.server.application.*
+import io.ktor.server.plugins.cors.routing.CORS
 import io.ktor.server.response.respondText
 import io.ktor.server.routing.*
 import io.ktor.server.websocket.*
+import io.ktor.websocket.CloseReason
+import io.ktor.websocket.close
 import io.micrometer.prometheusmetrics.PrometheusConfig
 import io.micrometer.prometheusmetrics.PrometheusMeterRegistry
 import kotlinx.coroutines.DelicateCoroutinesApi
@@ -32,6 +34,11 @@ fun Application.module() {
     configureMetrics(meterRegistry)
     configureWebSockets()
 
+    install(CORS) {
+        anyHost()
+        anyMethod()
+    }
+
     val redis = createRedis(environment.config)
 
     val broadcaster = RedisMessageBroadcaster(redis, meterRegistry)
@@ -43,21 +50,32 @@ fun Application.module() {
         broadcaster.beginPolling()
     }
 
-    // TODO: get room id from request
-    val roomId = UUID.randomUUID()
-
-    redis.getBucket<SummaryMessage>("osucad:edit:$roomId:summary").set(SummaryMessage(0, SequenceNumber(0), ""))
+    val jwtVerifier = createJwtVerifier()
 
     routing {
-        get {
-            call.respondText("Hello, world!")
-        }
-
         webSocket {
+            val tokenString = call.request.queryParameters["token"]
+
+            if (tokenString == null) {
+                close(CloseReason(CloseReason.Codes.PROTOCOL_ERROR, "Missing token"))
+                return@webSocket
+            }
+
+            val token = runCatching {
+                jwtVerifier.verify(tokenString)
+            }.getOrElse {
+                close(CloseReason(CloseReason.Codes.PROTOCOL_ERROR, "Invalid token"))
+                return@webSocket
+            }
+
             val socket = KtorWebSocketAdapter(this)
 
-            // TODO: use token for this
-            val user = UserInfo(0, "guest")
+            val roomId = UUID.fromString(token.getClaim("roomId").asString())
+
+            val user = UserInfo(
+                id = token.subject.toInt(),
+                username = token.getClaim("name").asString(),
+            )
 
             gateway.accept(socket, roomId, user)
         }

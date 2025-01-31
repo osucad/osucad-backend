@@ -7,7 +7,7 @@ import io.ktor.server.plugins.cors.routing.CORS
 import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.response.*
 
-fun Application.configureErrorHandling() {
+fun Application.configureHttp() {
     install(StatusPages) {
         exception<ResponseStatusException> { call, cause ->
             call.respond(cause.status, cause.message ?: cause.status.description)
@@ -19,11 +19,9 @@ fun Application.configureErrorHandling() {
         }
     }
 
-    if (developmentMode) {
-        install(CORS) {
-            anyHost()
-            anyMethod()
-            allowCredentials = true
-        }
+    install(CORS) {
+        anyHost()
+        anyMethod()
+        allowCredentials = true
     }
 }

@@ -1,6 +1,7 @@
 package com.osucad.server.multiplayer.local
 
 import com.osucad.server.multiplayer.IOpsManager
+import com.osucad.server.multiplayer.types.AssetInfo
 import com.osucad.server.multiplayer.types.SequenceNumber
 import com.osucad.server.multiplayer.types.SequencedOpsMessage
 import com.osucad.server.multiplayer.types.SummaryMessage
@@ -34,6 +35,7 @@ class LocalOpsManager : IOpsManager {
         val message = SequencedOpsMessage(
             clientId = clientId,
             sequenceNumber = sequenceNumber,
+            version = version,
             ops = ops,
         )
 
@@ -49,12 +51,14 @@ class LocalOpsManager : IOpsManager {
     override suspend fun appendSummary(
         clientId: Int,
         sequenceNumber: SequenceNumber,
-        summary: String
+        summary: String,
+        assets: List<AssetInfo>,
     ) {
         this.summary = SummaryMessage(
             clientId = clientId,
             sequenceNumber = sequenceNumber,
             summary = summary,
+            assets = assets,
         )
 
         ops.removeIf { it.sequenceNumber.id0 < sequenceNumber.id0 }

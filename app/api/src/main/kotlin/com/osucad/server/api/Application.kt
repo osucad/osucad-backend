@@ -1,7 +1,7 @@
 package com.osucad.server.api
 
 import com.osucad.server.api.config.configureDatabase
-import com.osucad.server.api.config.configureErrorHandling
+import com.osucad.server.api.config.configureHttp
 import com.osucad.server.api.config.configureKoin
 import com.osucad.server.api.config.configureLogging
 import com.osucad.server.api.config.configureRouting
@@ -15,9 +15,9 @@ fun main(args: Array<String>) = EngineMain.main(args)
 fun Application.module() {
     configureLogging()
     configureKoin()
-    configureErrorHandling()
+    configureHttp()
     configureSerialization()
-    configureSecurity()
     configureDatabase()
+    configureSecurity()
     configureRouting()
 }

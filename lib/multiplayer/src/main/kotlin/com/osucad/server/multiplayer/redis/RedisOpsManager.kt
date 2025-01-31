@@ -1,6 +1,7 @@
 package com.osucad.server.multiplayer.redis
 
 import com.osucad.server.multiplayer.IOpsManager
+import com.osucad.server.multiplayer.types.AssetInfo
 import com.osucad.server.multiplayer.types.OpsMessage
 import com.osucad.server.multiplayer.types.SequenceNumber
 import com.osucad.server.multiplayer.types.SequencedOpsMessage
@@ -42,6 +43,7 @@ class RedisOpsManager(
     override suspend fun append(clientId: Long, version: Long, ops: List<String>): SequencedOpsMessage {
         val message = OpsMessage(
             clientId = clientId,
+            version = version,
             ops = ops,
         )
 
@@ -54,6 +56,7 @@ class RedisOpsManager(
         return SequencedOpsMessage(
             clientId = clientId,
             sequenceNumber = sequenceNumber,
+            version = version,
             ops = ops,
         )
     }
@@ -71,16 +74,23 @@ class RedisOpsManager(
             SequencedOpsMessage(
                 clientId = message.clientId,
                 sequenceNumber = sequenceNumber,
+                version = message.version,
                 ops = message.ops,
             )
         }
     }
 
-    override suspend fun appendSummary(clientId: Int, sequenceNumber: SequenceNumber, summary: String) {
+    override suspend fun appendSummary(
+        clientId: Int,
+        sequenceNumber: SequenceNumber,
+        summary: String,
+        assets: List<AssetInfo>,
+    ) {
         val message = SummaryMessage(
             clientId = clientId,
             sequenceNumber = sequenceNumber,
             summary = summary,
+            assets = assets,
         )
 
         summaryBucket.setAsync(message)
@@ -132,6 +142,7 @@ class RedisOpsManager(
             SequencedOpsMessage(
                 clientId = message.clientId,
                 sequenceNumber = sequenceNumber,
+                version = message.version,
                 ops = message.ops,
             )
         }

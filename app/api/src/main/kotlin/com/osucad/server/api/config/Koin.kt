@@ -15,6 +15,7 @@ fun Application.configureKoin() {
             module {
                 single<ApplicationConfig> { environment.config }
             },
+            DatabaseModule().module,
             ConfigModule().module,
             RepositoryModule().module,
             ServiceModule().module
