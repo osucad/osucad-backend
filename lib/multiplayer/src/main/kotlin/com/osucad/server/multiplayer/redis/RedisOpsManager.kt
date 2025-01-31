@@ -26,6 +26,19 @@ class RedisOpsManager(
         private const val MESSAGE_KEY = "message"
     }
 
+    override suspend fun initializeFromSummary(summary: SummaryMessage) {
+        val alreadyInitialized = summaryBucket.isExistsAsync
+            .toCompletableFuture()
+            .await()
+
+        if (alreadyInitialized)
+            throw IllegalStateException("Room is already initialized")
+
+        summaryBucket.setAsync(summary)
+            .toCompletableFuture()
+            .await()
+    }
+
     override suspend fun append(clientId: Long, version: Long, ops: List<String>): SequencedOpsMessage {
         val message = OpsMessage(
             clientId = clientId,
@@ -81,6 +94,9 @@ class RedisOpsManager(
     }
 
     override suspend fun getSummary(): SummaryMessage {
+        if (!summaryBucket.isExistsAsync.toCompletableFuture().await())
+            throw IllegalStateException("Room is not set up")
+
         return summaryBucket.getAsync()
             .toCompletableFuture()
             .await()

@@ -6,6 +6,8 @@ import com.osucad.server.multiplayer.types.SummaryMessage
 import kotlinx.coroutines.flow.Flow
 
 interface IOpsManager {
+    suspend fun initializeFromSummary(summary: SummaryMessage)
+
     suspend fun append(clientId: Long, version: Long, ops: List<String>): SequencedOpsMessage
 
     suspend fun getOpsSince(sequenceNumber: SequenceNumber): List<SequencedOpsMessage>

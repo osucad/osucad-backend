@@ -20,6 +20,10 @@ class LocalOpsManager : IOpsManager {
 
     private val sequenceNumber = AtomicLong(0)
 
+    override suspend fun initializeFromSummary(summary: SummaryMessage) {
+        this.summary = summary
+    }
+
     override suspend fun append(
         clientId: Long,
         version: Long,

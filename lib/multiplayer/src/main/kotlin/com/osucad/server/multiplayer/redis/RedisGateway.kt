@@ -25,7 +25,6 @@ class RedisGateway(
     ) {
         ensureInitialized()
 
-
         val room = RedisRoomAdapter(
             roomId = roomId,
             redis = RedisRoomResources(redis, roomId),
