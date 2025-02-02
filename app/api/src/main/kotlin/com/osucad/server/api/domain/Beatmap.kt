@@ -1,5 +1,6 @@
 package com.osucad.server.api.domain
 
+import com.osucad.server.api.utils.BlobReference
 import kotlinx.serialization.Serializable
 
 @Serializable
@@ -11,6 +12,6 @@ class Beatmap(
     val title: String,
     val titleUnicode: String,
     val creator: String,
-    val audioUrl: String,
-    val backgroundUrl: String?,
+    val audioFile: BlobReference,
+    val backgroundFile: BlobReference?,
 )

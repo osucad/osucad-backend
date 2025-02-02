@@ -43,7 +43,6 @@ class BeatmapSetImportService(
     class OSZImportException(message: String? = null) : Exception(message)
 
 
-    @OptIn(ExperimentalPathApi::class)
     suspend fun import(path: Path): UUID = withContext(Dispatchers.IO) {
         logger.info("Attempting to import beatmapset from .osz file {}", path.absolutePathString())
 

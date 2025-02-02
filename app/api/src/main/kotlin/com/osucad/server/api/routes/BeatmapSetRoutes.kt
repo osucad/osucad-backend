@@ -1,10 +1,13 @@
 package com.osucad.server.api.routes
 
+import com.osucad.server.api.domain.BeatmapSet
+import com.osucad.server.api.dtos.toDto
 import com.osucad.server.api.exceptions.BadRequestException
 import com.osucad.server.api.services.beatmaps.BeatmapSetImportService
 import com.osucad.server.api.services.beatmaps.BeatmapSetService
 import io.ktor.http.*
 import io.ktor.http.content.*
+import io.ktor.server.auth.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -12,17 +15,16 @@ import io.ktor.util.cio.*
 import io.ktor.utils.io.*
 import kotlinx.io.readByteArray
 import org.koin.ktor.ext.inject
+import java.lang.IllegalStateException
 import kotlin.io.path.createTempFile
 import kotlin.io.path.deleteIfExists
 import kotlin.io.path.fileSize
 import kotlin.io.path.writeBytes
 
 fun Route.beatmapSetRoutes() {
-    route("/") {
-        findAllRoute()
-    }
-    route("/import/osz") {
-        importOszRoute()
+    authenticate {
+        route("/", Route::findAllRoute)
+        route("/import/osz", Route::importOszRoute)
     }
 }
 
@@ -30,25 +32,27 @@ private fun Route.findAllRoute() {
     val service by inject<BeatmapSetService>()
 
     get {
-        call.respond(service.findAll())
+        call.respond(service.findAll().map(BeatmapSet::toDto))
     }
 }
 
 private fun Route.importOszRoute() {
     val importService by inject<BeatmapSetImportService>()
+    val beatmapSetService by inject<BeatmapSetService>()
 
-    suspend fun handleFilePart(part: PartData.FileItem) {
+    suspend fun handleFilePart(part: PartData.FileItem): BeatmapSet {
         val tmpFile = createTempFile(suffix = ".zip")
         try {
-            val data =part.provider()
+            val data = part.provider()
                 .readRemaining()
                 .readByteArray()
 
             tmpFile.writeBytes(data)
 
-            println(tmpFile.fileSize())
+            val id = importService.import(tmpFile)
 
-            importService.import(tmpFile)
+            return beatmapSetService.findById(id)
+                ?: throw IllegalStateException("No beatmapset created")
         } finally {
             tmpFile.deleteIfExists()
         }
@@ -60,7 +64,9 @@ private fun Route.importOszRoute() {
 
         when (val part = multiPartData.readPart()) {
             is PartData.FileItem -> {
-                handleFilePart(part)
+                val beatmapSet = handleFilePart(part)
+
+                call.respond(beatmapSet.toDto())
             }
 
             else -> throw BadRequestException()
@@ -71,6 +77,5 @@ private fun Route.importOszRoute() {
             throw BadRequestException()
 
         call.respond(HttpStatusCode.OK, "OK")
-
     }
 }
