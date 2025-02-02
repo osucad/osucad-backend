@@ -49,7 +49,7 @@ abstract class BaseRoomAdapter(
             acquireLock().use {
                 clientInfo = addUserToRoom(userInfo)
 
-                client = RoomClient(socket, clientInfo)
+                client = RoomClient(socket, clientInfo!!)
 
                 lastSequenceNumber = sendInitialState(client)
             }
@@ -67,7 +67,7 @@ abstract class BaseRoomAdapter(
             handleClientMessages(client)
         } finally {
             if (clientInfo != null)
-                removeUserFromRoom(clientInfo)
+                removeUserFromRoom(clientInfo!!)
         }
     }
 
@@ -126,6 +126,7 @@ abstract class BaseRoomAdapter(
     private suspend fun handleMessage(client: RoomClient, message: ClientMessage) {
         when (message) {
             is ClientMessage.SubmitOps -> submitOps(client, message)
+            is ClientMessage.UpdatePresence -> updatePresence(client, message)
         }
     }
 
@@ -137,6 +138,18 @@ abstract class BaseRoomAdapter(
         sample.stop(submitOpsTimer.withTags(tags))
 
         outgoingOpsCounter.withTags(tags).increment()
+    }
+
+    private suspend fun updatePresence(client: RoomClient, message: ClientMessage.UpdatePresence) {
+        val newPresence = client.client.presence
+            .toMutableMap()
+            .also { it[message.key] = message.value }
+
+        client.client.presence = newPresence
+
+        clients.updatePresence(client.clientId, message.key, message.value)
+
+        broadcaster.broadcast(roomId, ServerMessage.PresenceUpdated(client.clientId, message.key, message.value))
     }
 
     private fun tags(client: RoomClient) = Tags.of(

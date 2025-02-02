@@ -22,7 +22,7 @@ class RedisRoomAdapter(
     override suspend fun acquireLock(): ILock {
         val threadId = Thread.currentThread().threadId()
 
-        val res = lock.tryLockAsync(100, 100, TimeUnit.MILLISECONDS, threadId)
+        val res = lock.tryLockAsync(1000, 1000, TimeUnit.MILLISECONDS, threadId)
             .toCompletableFuture()
             .await()
 

@@ -3,6 +3,7 @@ package com.osucad.server.multiplayer.local
 import com.osucad.server.multiplayer.IClientManager
 import com.osucad.server.multiplayer.types.ClientInfo
 import com.osucad.server.multiplayer.types.UserInfo
+import kotlinx.serialization.json.JsonElement
 import java.util.Collections
 import java.util.concurrent.atomic.AtomicLong
 
@@ -20,6 +21,7 @@ class LocalClientManager : IClientManager {
             clientId = clientId,
             user = user,
             color = "#ff0000",
+            presence = mutableMapOf()
         )
 
         clients.add(clientInfo)
@@ -33,5 +35,9 @@ class LocalClientManager : IClientManager {
 
     override suspend fun getAll(): List<ClientInfo> {
         return clients.toList()
+    }
+
+    override suspend fun updatePresence(clientId: Long, key: String, value: JsonElement) {
+        // Nothing to do here since room adapter already handled it
     }
 }

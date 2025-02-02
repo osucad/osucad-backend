@@ -5,6 +5,7 @@ import com.osucad.server.multiplayer.types.SequencedOpsMessage
 import com.osucad.server.multiplayer.types.SummaryWithOps
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonElement
 
 @Serializable
 sealed interface ServerMessage {
@@ -38,4 +39,11 @@ sealed interface ServerMessage {
         val ops: List<SequencedOpsMessage>,
     ) : ServerMessage
 
+    @Serializable
+    @SerialName("presence_updated")
+    data class PresenceUpdated(
+        val clientId: Long,
+        val key: String,
+        val value: JsonElement,
+    ) : ServerMessage
 }

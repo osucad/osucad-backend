@@ -53,7 +53,7 @@ fun Application.module() {
     val jwtVerifier = createJwtVerifier()
 
     routing {
-        webSocket {
+        webSocket("/api/multiplayer") {
             val tokenString = call.request.queryParameters["token"]
 
             if (tokenString == null) {

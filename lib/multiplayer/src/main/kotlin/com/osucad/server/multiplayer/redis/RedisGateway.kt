@@ -7,8 +7,11 @@ import io.micrometer.core.instrument.MeterRegistry
 import io.micrometer.core.instrument.simple.SimpleMeterRegistry
 import kotlinx.coroutines.DelicateCoroutinesApi
 import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.channels.ClosedReceiveChannelException
+import kotlinx.coroutines.channels.ClosedSendChannelException
 import kotlinx.coroutines.launch
 import org.redisson.api.RedissonClient
+import org.slf4j.LoggerFactory
 import java.util.UUID
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -16,6 +19,8 @@ class RedisGateway(
     private val redis: RedissonClient,
     private val meterRegistry: MeterRegistry = SimpleMeterRegistry(),
 ) : IWebsocketGateway {
+    private val logger = LoggerFactory.getLogger(javaClass)
+
     private val broadcaster = RedisMessageBroadcaster(redis, meterRegistry)
 
     override suspend fun accept(
@@ -32,7 +37,13 @@ class RedisGateway(
             meterRegistry = meterRegistry,
         )
 
-        room.handle(socket, user)
+        try {
+            room.handle(socket, user)
+        } catch (e: ClosedReceiveChannelException) {
+            // client disconnected, nothing to do
+        } catch (e: ClosedSendChannelException) {
+            // client disconnected, nothing to do
+        }
     }
 
     private val initialized = AtomicBoolean(false)
