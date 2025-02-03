@@ -91,7 +91,7 @@ class RedisMessageBroadcaster(redis: RedissonClient, private val meterRegistry: 
     private suspend fun append(roomId: UUID, message: BroadcastEvent) {
         val encoded = json.encodeToString(message)
 
-        stream.add(StreamAddArgs.entry(MESSAGE_KEY, encoded))
+        stream.add(StreamAddArgs.entry(MESSAGE_KEY, encoded).trimNonStrict().maxLen(1000).noLimit())
     }
 
 
